@@ -1,7 +1,7 @@
 <?php
     session_start();
     require_once 'connect.php';
-    
+
     $full_name = $_POST['full_name'];
     $login = $_POST['login'];
     $email = $_POST['email'];
@@ -41,27 +41,36 @@
         die();
     }
 
-    if($password_confirm === ''){
-        // $_SESSION['messege'] = 'Вкажіть пароль';
-        // header('Location: ../register.php');
-        // return;
-    }
-
-
     if($password === $password_confirm) {
         $path = 'uploads/' . time() . $_FILES['avatar']['name'];
-        if(!move_uploaded_file($_FILES['avatar']['tmp_name'],'../' . $path)){
-            // $_SESSION['messege'] = 'Помилка при завантажені фото';
-            // header('Location: ../register.php');
-            // return;
-        }
-    }else{
-        // $_SESSION['messege'] = 'Паролі не збігаються';
-        // header('Location: ../register.php');
-        // return;
+        move_uploaded_file($_FILES['avatar']['tmp_name'],'../' . $path);
+    }
+
+    $check_login = mysqli_query($connect,"SELECT * FROM `users` WHERE `login` = '$login'");
+    $check_email = mysqli_query($connect,"SELECT * FROM `users` WHERE `email` LIKE '%$email%'");
+
+    if(mysqli_num_rows($check_login) > 0){     
+        $response = [
+            "status" => false,
+            "type" => 2,
+            "message" => 'Вже зареєстрвано користувача з таким логіном',
+        ];
+        echo json_encode($response);
+        die();
+    }
+
+    if(mysqli_num_rows($check_email) > 0){     
+        $response = [
+            "status" => false,
+            "type" => 2,
+            "message" => 'Вже зареєстрвано користувача з такою поштою',
+        ];
+        echo json_encode($response);
+        die();
     }
 
     $password = md5($password);
+
     mysqli_query($connect,"INSERT INTO `users` (`full_name`, `login`, `email`, `password`, `avatar`) 
     VALUES ('$full_name', '$login', ' $email', '$password', '$path')");
     

@@ -20,12 +20,12 @@
 </head>
 <body>
     <div class="container">
-    <form action="./vendor/signup.php" method="post" enctype="multipart/form-data">
+    <form>
         <label>ПІП</label>
         <input type="text" name="full_name" placeholder="Ведіть ваше повне ім'я">
         <label>Логін</label>
         <input type="text" name="login" placeholder="Ведіть ваш логін">
-        <label>Пароль</label>
+        <label>Пошта</label>
         <input type="email"name="email" placeholder="Ведіть вашу Пошту">
         <label>Зображення профілю</label>
         <input type="file" name="avatar">
@@ -35,13 +35,16 @@
         <input type="password" name="password_confirm" placeholder="Підтвердіть ваш пароль">
         <button type="submit" class="register-button">Зареєструйтеся</button>
         <p>У вас вже є обілковий запис? - <a href="./index.php">Авторизація</a></p>
-        <?php
+        <p class="messege none"></p>
+        <!-- <?php
             if(count($_SESSION) !== 0 ){
                 echo '<p class="messege">' . $_SESSION['messege'] . '</p>';
             } 
             unset($_SESSION['messege']);
-         ?>
+         ?> -->
     </form>
     </div>
 </body>
 </html>
+
+<!-- action="./vendor/signup.php" method="post" enctype="multipart/form-data" -->

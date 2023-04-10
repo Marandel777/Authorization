@@ -44,7 +44,6 @@ $('.login-button').click(function(e) {
 
   $('.register-button').click(function(e) {
     e.preventDefault();
-    console.log('register click');
     let full_name = $('input[name = "full_name"]').val();
     let login = $('input[name = "login"]').val();
     let email = $('input[name = "email"]').val();
@@ -67,20 +66,19 @@ $('.login-button').click(function(e) {
         contentType: false,
         data: formData,
         success: function(data){
+            console.log(data);
             data = JSON.parse(data);
             if(data.status){
                 document.location.href = '/authorization/index.php';
             }else{
                 if(data.type === 1){
                     data.fields.forEach(function(field){
-                        console.log(field);
+                        // console.log(field);
                         $(`input[name = "${field}"]`).addClass('error');
                     });
                 }
                 $('.messege').removeClass('none').text(data.message);
             }
-
-            
         }
     });
 });
